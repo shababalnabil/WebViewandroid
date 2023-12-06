@@ -2,6 +2,6 @@ workflows:
     android-app: # workflow ID
         name: Android app # workflow name
         scripts:
-            - gradlew assembleRelease
+            - ./gradlew assembleRelease
         artifacts:
             - build/outputs/**/**/*.apk
