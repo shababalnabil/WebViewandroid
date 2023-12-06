@@ -1,19 +1,7 @@
 workflows:
-    release-workflow:
-        name: Native Android
-        max_build_duration: 60
+    android-app: # workflow ID
+        name: Android app # workflow name
         scripts:
-        - |
-        # Decrypt and set up keystore
-        echo $CM_KEYSTORE | base64 --decode > "$FCI_BUILD_DIR/testingkey.jks"
-        cat >> "$FCI_BUILD_DIR/keystore.properties" <<EOF
-        storePassword=android
-        keyPassword=android
-        keyAlias=codemagic
-        storeFile=testingkey.jks
-        EOF
-      
-      # Build the release APK
-      - ./gradlew assembleRelease
-  artifacts:
-    - app/build/**/outputs/**/*.apk
+            - ./gradlew assembleDebug
+        artifacts:
+            - build/outputs/**/**/*.apk
