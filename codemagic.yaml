@@ -1,15 +1,7 @@
 workflows:
-  version: 2
-
-  build:
-    name: Build
-    script:
-      - echo "Installing dependencies"
-      - ./gradlew dependencies
-
-      - echo "Building the release app"
-      - ./gradlew assembleRelease
-
-    artifacts:
-      - app/build/outputs/**/*.apk
-
+    android-app: # workflow ID
+        name: Android app # workflow name
+        scripts:
+            - ./gradlew assembleRelease
+        artifacts:
+            - build/outputs/**/**/*.apk

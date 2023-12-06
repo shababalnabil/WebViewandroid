@@ -1,15 +1,25 @@
-*.iml
+# Exclude Gradle build files
 .gradle
-/local.properties
+/build
+
+# Exclude IntelliJ IDEA files
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+
+# Exclude macOS-specific files
 .DS_Store
-/build
+
+# Exclude Android Studio specific files
 /captures
 .externalNativeBuild
 .cxx
+
+# Exclude local properties
 local.properties
+
+# Include Gradle wrapper script
+!/gradlew
