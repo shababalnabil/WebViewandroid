@@ -1,21 +1,19 @@
-# Workflow setup for building Native Android project
-workflows:
-    android-app: # workflow ID
-        name: Android app # workflow name
-        scripts:
-        # ...
-      - |
-        # set up release keystore
-        echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
-        cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
-        storePassword=$CM_KEYSTORE_PASSWORD
-        keyPassword=$CM_KEY_ALIAS_PASSWORD
-        keyAlias=$CM_KEY_ALIAS_USERNAME
-        storeFile=/tmp/keystore.keystore
-        EOF
-        - ls -l "$FCI_BUILD_DIR"
-            - chmod +x "$FCI_BUILD_DIR/gradlew"
-            - "$FCI_BUILD_DIR/gradlew assembleRelease"
-        artifacts:
-            - build/outputs/**/**/*.apk
-
+release-workflow:
+  name: Native Android
+  max_build_duration: 60
+  environment:
+  scripts:
+    - |
+      # Decrypt and set up keystore
+      echo $CM_KEYSTORE | base64 --decode > "$FCI_BUILD_DIR/testingkey.jks"
+      cat >> "$FCI_BUILD_DIR/keystore.properties" <<EOF
+      storePassword=android
+      keyPassword=android
+      keyAlias=codemagic
+      storeFile=testingkey.jks
+      EOF
+      
+      # Build the release APK
+      ./gradlew assembleRelease
+  artifacts:
+    - app/build/**/outputs/**/*.apk
