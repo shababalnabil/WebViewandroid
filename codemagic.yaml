@@ -13,4 +13,5 @@ workflows:
             - chmod +x "$FCI_BUILD_DIR/gradlew" # Set execute permissions for gradlew
             - "$FCI_BUILD_DIR/gradlew assembleRelease" # Build the release APK
         artifacts:
-            - build/outputs/**/**/*.apk
+            #- build/outputs/**/**/*.apk
+            - build/**/outputs/apk/**/*.apk
