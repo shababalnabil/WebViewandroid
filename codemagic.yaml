@@ -1,6 +1,4 @@
 workflows:
-  version: 2
-
   build:
     name: Build
     script:
