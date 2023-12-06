@@ -1,3 +1,4 @@
+workflows:
 release-workflow:
   name: Native Android
   max_build_duration: 60
