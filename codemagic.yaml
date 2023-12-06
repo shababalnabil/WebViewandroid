@@ -1,13 +1,7 @@
 workflows:
     android-app: # workflow ID
         name: Android app # workflow name
-        scripts:
-        # ....
-        - name: Set Android SDK location
-          script: | 
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
-        - name: Build Android release
-         script: | 
+        scripts: | 
          gradlew assembleRelease # -> to create the .apk
 
 artifacts:
