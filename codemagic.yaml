@@ -1,9 +1,15 @@
 workflows:
-    android-app: # workflow ID
-        name: Android app # workflow name
-        scripts:
-            - ls -l "$FCI_BUILD_DIR" # List contents of the build directory
-            - chmod +x "$FCI_BUILD_DIR/gradlew" # Set execute permissions for gradlew
-            - "$FCI_BUILD_DIR/gradlew assembleRelease" # Build the release APK
-        artifacts:
-            - build/outputs/**/**/*.apk
+  version: 2
+
+  build:
+    name: Build
+    script:
+      - echo "Installing dependencies"
+      - ./gradlew dependencies
+
+      - echo "Building the release app"
+      - ./gradlew assembleRelease
+
+    artifacts:
+      - app/build/outputs/**/*.apk
+
