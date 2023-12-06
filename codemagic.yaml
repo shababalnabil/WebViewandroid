@@ -2,8 +2,13 @@ workflows:
     android-app: # workflow ID
         name: Android app # workflow name
         scripts:
-            - ls -l "$FCI_BUILD_DIR"
-            - chmod +x "$FCI_BUILD_DIR/gradlew"
-            - "$FCI_BUILD_DIR/gradlew assembleRelease"
-        artifacts:
-            - build/outputs/**/**/*.apk
+        # ....
+        - name: Set Android SDK location
+          script: | 
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+        - name: Build Android release
+         script: | 
+         gradlew assembleRelease # -> to create the .apk
+
+artifacts:
+  - android/app/build/outputs/**/*.aab
