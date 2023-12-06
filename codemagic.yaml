@@ -3,6 +3,10 @@ workflows:
     android-app: # workflow ID
         name: Android app # workflow name
         instance_type : mac_mini_m1
+        environment:
+          vars:
+            java: 1.8
+            gradle: 8.0
         scripts:
             - ls -l "$FCI_BUILD_DIR" # List contents of the build directory
             - chmod +x "$FCI_BUILD_DIR/gradlew" # Set execute permissions for gradlew
