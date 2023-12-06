@@ -2,6 +2,8 @@ workflows:
     android-app: # workflow ID
         name: Android app # workflow name
         scripts:
-            - ./gradlew assembleDebug
+            - ls -l "$FCI_BUILD_DIR"
+            - chmod +x "$FCI_BUILD_DIR/gradlew"
+            - "$FCI_BUILD_DIR/gradlew assembleRelease"
         artifacts:
             - build/outputs/**/**/*.apk
