@@ -1,8 +1,7 @@
 workflows:
     android-app: # workflow ID
         name: Android app # workflow name
-        scripts: | 
-         gradlew assembleRelease # -> to create the .apk
-
-artifacts:
-  - android/app/build/outputs/**/*.aab
+        scripts:
+            - gradlew assembleRelease
+        artifacts:
+            - build/outputs/**/**/*.apk
