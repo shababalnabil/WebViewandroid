@@ -19,7 +19,7 @@
 .cxx
 
 # Exclude local properties
-local.properties
+!local.properties
 
 # Include Gradle wrapper script
 !/gradlew
