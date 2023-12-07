@@ -7,9 +7,14 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+
 android {
     namespace = "com.nabil.webviewandroid"
     compileSdk = 34
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId = "com.nabil.webviewandroid"
@@ -19,7 +24,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String","WEB_URL", "\"${System.getenv("WEB_URL")}\"")
+
     }
+
+
 
     signingConfigs {
         create("release") {
