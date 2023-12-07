@@ -14,4 +14,4 @@ workflows:
             - "$FCI_BUILD_DIR/gradlew assembleRelease" # Build the release APK
         artifacts:
             #- build/outputs/**/**/*.apk
-            - build/**/outputs/apk/**/*.apk
+            - app/build/outputs/apk/release/app-release.apk
