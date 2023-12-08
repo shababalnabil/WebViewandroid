@@ -10,7 +10,7 @@ workflows:
             JAVA_HOME: "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
         scripts:
             - chmod +x $FCI_BUILD_DIR/icon_script.sh
-            - ./$FCI_BUILD_DIR/icon_script.sh $icon_url
+            - $FCI_BUILD_DIR/icon_script.sh $icon_url
             - ls -l "$FCI_BUILD_DIR" # List contents of the build directory
             - chmod +x "$FCI_BUILD_DIR/gradlew" # Set execute permissions for gradlew
             - "$FCI_BUILD_DIR/gradlew assembleRelease" # Build the release APK
