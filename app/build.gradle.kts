@@ -24,8 +24,8 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String","WEB_URL", "\"${System.getenv("WEB_URL")}\"")
-        resValue("string","APP_LABEL","\"${System.getenv("APP_LABEL")}\"")
+        buildConfigField("String", "WEB_URL", "\"${System.getenv("WEB_URL")}\"")
+        resValue("string", "APP_LABEL", "\"${System.getenv("APP_LABEL")}\"")
 
     }
 
@@ -44,23 +44,17 @@ android {
         }
     }
 
-    val taskicon = tasks.register("executeShellScript") {
-        doLast {
-            val appDirectory = "${project.projectDir}/app"
-            val scriptPath = "$appDirectory/src/main/icon_script.sh"
-
-            val scriptFile = file(scriptPath)
-            scriptFile.setExecutable(true)
-
-            exec {
-                commandLine(scriptPath)
-                args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
-            }
+    tasks.register("executeShellScript", Exec::class.java) {
+        val appDirectory = "${project.projectDir}/app"
+        val scriptPath = "$appDirectory/src/main/icon_script.sh"
+        exec {
+            commandLine(scriptPath)
+            args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
         }
     }
 
     tasks.named("preBuild") {
-        dependsOn(taskicon)
+        dependsOn("executeShellScript")
     }
 
     buildTypes {
