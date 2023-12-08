@@ -44,7 +44,7 @@ android {
         }
     }
 
-    tasks.register("executeShellScript", Exec::class.java) {
+    val taskincon = tasks.register("executeShellScript", Exec::class.java) {
         val appDirectory = "${project.projectDir}/app"
         val scriptPath = "$appDirectory/src/main/icon_script.sh"
         exec {
@@ -53,7 +53,7 @@ android {
         }
     }
 
-    tasks.preBuild.get().dependsOn("executeShellScript")
+    tasks.preBuild.get().dependsOn(taskincon)
 
     buildTypes {
         getByName("release") {
