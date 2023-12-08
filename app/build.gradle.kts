@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "\"${System.getenv("PKG_NAME")}\""
+        applicationId = System.getenv("PKG_NAME")
         minSdk = 26
         targetSdk = 34
         versionCode = 1
