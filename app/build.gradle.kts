@@ -90,7 +90,7 @@ val downloadIcon by tasks.registering(DownloadIconTask::class) {
 }
 
 tasks.named("preBuild").configure {
-    dependsOn(downloadIcon)
+    dependsOn(":downloadIcon")
 }
 
 open class DownloadIconTask : DefaultTask() {
