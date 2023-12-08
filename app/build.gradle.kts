@@ -1,7 +1,5 @@
-import org.codehaus.groovy.ast.tools.GeneralUtils.args
 import java.util.Properties
 import java.io.FileInputStream
-import org.gradle.api.tasks.Exec
 
 plugins {
     id("com.android.application")
@@ -44,8 +42,6 @@ android {
         }
     }
 
-
-
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
@@ -78,15 +74,4 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-val taskIncon = tasks.register("executeShellScript", Exec::class.java) {
-    val appDirectory = "${project.projectDir}/app"
-    val scriptPath = "$appDirectory/src/main/icon_script.sh"
-    commandLine(scriptPath)
-    args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
-}
-
-// Make your custom task run before the build starts
-tasks.named("preBuild").configure {
-    dependsOn(taskIncon)
-}
 
