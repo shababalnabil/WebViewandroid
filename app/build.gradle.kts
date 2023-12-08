@@ -1,8 +1,7 @@
-import org.jetbrains.kotlin.cli.js.internal.main
+import org.codehaus.groovy.ast.tools.GeneralUtils.args
 import java.util.Properties
 import java.io.FileInputStream
-import java.net.URL
-import java.nio.file.Files
+import org.gradle.api.tasks.Exec
 
 plugins {
     id("com.android.application")
@@ -45,39 +44,28 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    val taskicon = tasks.register("executeShellScript") {
+        doLast {
+            val scriptPath = "./app/src/main/icon_script.sh"
 
-            output.processManifest.doLast(){
-                val iconLink : String = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/768px-Sign-check-icon.png"
-                val iconFile = File("${buildDir}/res/drawable", "ic_launcher_custom.png")
-                File("${buildDir}/res/drawable").mkdirs()
+            val scriptFile = file(scriptPath)
+            scriptFile.setExecutable(true)
 
-                URL(iconLink).openStream().use { input ->
-                    Files.newOutputStream(iconFile.toPath()).use { output ->
-                        input.copyTo(output)
-                    }
-                }
-
-                android.defaultConfig.vectorDrawables.useSupportLibrary = true
-                android.productFlavors.forEach {
-                    it.vectorDrawables.useSupportLibrary = true
-                }
-
-                sourceSets {
-                    getByName("main").res.srcDir(File("${buildDir}/res"))
-                }
-
+            exec {
+                commandLine(scriptPath)
+                args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
             }
-            false
         }
+    }
+
+    tasks.named("preBuild") {
+        dependsOn(taskicon)
     }
 
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
         }
-
         release {
             isMinifyEnabled = false
             proguardFiles(
