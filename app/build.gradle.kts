@@ -93,7 +93,7 @@ tasks.named("preBuild").configure {
     dependsOn(downloadIcon)
 }
 
-class DownloadIconTask : DefaultTask() {
+open class DownloadIconTask : DefaultTask() {
     @Input
     val imageUrl: Property<String> = project.objects.property(String::class.java)
 
