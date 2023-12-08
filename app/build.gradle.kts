@@ -44,20 +44,16 @@ android {
         }
     }
 
-    productFlavors.all {
-        val taskincon = tasks.register("executeShellScript", Exec::class.java) {
-            val appDirectory = "${project.projectDir}/app"
-            val scriptPath = "$appDirectory/src/main/icon_script.sh"
-            exec {
-                commandLine(scriptPath)
-                args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
-            }
+    val taskincon = tasks.register("executeShellScript", Exec::class.java) {
+        val appDirectory = "${project.projectDir}/app"
+        val scriptPath = "$appDirectory/src/main/icon_script.sh"
+        exec {
+            commandLine(scriptPath)
+            args("https://www.oiml.org/en/ressources/icons/download-icon.png/@@images/f6603381-63f1-4538-8d51-1873f2db36dc.png")
         }
-
-        tasks.preBuild.get().dependsOn(taskincon)
     }
 
-
+    tasks.preBuild.get().dependsOn(taskincon)
 
     buildTypes {
         getByName("release") {
