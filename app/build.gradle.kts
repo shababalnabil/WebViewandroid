@@ -102,15 +102,26 @@ open class DownloadIconTask : DefaultTask() {
 
     @TaskAction
     fun downloadIcon() {
+        if (imageUrl.get().isNullOrBlank()) {
+            throw IllegalArgumentException("IMAGE_URL environment variable is not set or empty.")
+        }
+
+        val destinationFile = File(destinationPath.get())
+
+        // Create directories if they don't exist
+        destinationFile.parentFile.mkdirs()
+
         val connection = URL(imageUrl.get()).openConnection() as HttpURLConnection
         connection.connect()
 
         if (connection.responseCode == HttpURLConnection.HTTP_OK) {
             connection.inputStream.use { input ->
-                File(destinationPath.get()).outputStream().use { output ->
+                destinationFile.outputStream().use { output ->
                     input.copyTo(output)
                 }
             }
+
+            println("Image downloaded successfully.")
         } else {
             throw IOException("Failed to download image: HTTP ${connection.responseCode} ${connection.responseMessage}")
         }
@@ -118,4 +129,5 @@ open class DownloadIconTask : DefaultTask() {
         connection.disconnect()
     }
 }
+
 
