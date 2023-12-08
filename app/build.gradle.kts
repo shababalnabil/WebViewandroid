@@ -53,9 +53,7 @@ android {
         }
     }
 
-    tasks.named("preBuild") {
-        dependsOn("executeShellScript")
-    }
+    tasks.preBuild.get().dependsOn("executeShellScript")
 
     buildTypes {
         getByName("release") {
