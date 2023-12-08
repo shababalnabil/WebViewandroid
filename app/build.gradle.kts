@@ -17,15 +17,15 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.nabil.webviewandroid"
+        applicationId = "\"${System.getenv("PKG_NAME")}\""
         minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String","WEB_URL", "\"${System.getenv("WEB_URL")}\"")
+        resValue("string","APP_LABEL","\"${System.getenv("APP_LABEL")}\"")
 
     }
 
