@@ -1,6 +1,8 @@
-import java.lang.System.load
 import java.util.Properties
 import java.io.FileInputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.io.IOException
 
 plugins {
     id("com.android.application")
@@ -29,8 +31,6 @@ android {
 
     }
 
-
-
     signingConfigs {
         create("release") {
             val keystoreProperties = Properties().apply {
@@ -46,6 +46,8 @@ android {
         }
     }
 
+
+
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
@@ -59,6 +61,9 @@ android {
             )
         }
     }
+
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -78,3 +83,39 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
+val downloadIcon by tasks.registering(DownloadIconTask::class) {
+    imageUrl.set(System.getenv("Icon_Uri"))
+    destinationPath.set("${project.projectDir}/src/main/res/mipmap-anydpi-v26/ic_launcher.xml")
+}
+
+tasks.named("preBuild").configure {
+    dependsOn(downloadIcon)
+}
+
+class DownloadIconTask : DefaultTask() {
+    @Input
+    val imageUrl: Property<String> = project.objects.property(String::class.java)
+
+    @Input
+    val destinationPath: Property<String> = project.objects.property(String::class.java)
+
+    @TaskAction
+    fun downloadIcon() {
+        val connection = URL(imageUrl.get()).openConnection() as HttpURLConnection
+        connection.connect()
+
+        if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+            connection.inputStream.use { input ->
+                File(destinationPath.get()).outputStream().use { output ->
+                    input.copyTo(output)
+                }
+            }
+        } else {
+            throw IOException("Failed to download image: HTTP ${connection.responseCode} ${connection.responseMessage}")
+        }
+
+        connection.disconnect()
+    }
+}
+
