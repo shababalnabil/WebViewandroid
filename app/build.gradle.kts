@@ -46,7 +46,8 @@ android {
 
     val taskicon = tasks.register("executeShellScript") {
         doLast {
-            val scriptPath = "./app/src/main/icon_script.sh"
+            val appDirectory = "${project.projectDir}/app"
+            val scriptPath = "$appDirectory/src/main/icon_script.sh"
 
             val scriptFile = file(scriptPath)
             scriptFile.setExecutable(true)
