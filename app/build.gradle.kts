@@ -1,14 +1,13 @@
+import org.jetbrains.kotlin.cli.js.internal.main
 import java.util.Properties
 import java.io.FileInputStream
-import java.net.HttpURLConnection
 import java.net.URL
-import java.io.IOException
+import java.nio.file.Files
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
-
 
 android {
     namespace = "com.nabil.webviewandroid"
@@ -46,7 +45,33 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
 
+            output.processManifest.doLast(){
+                val iconLink : String = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/768px-Sign-check-icon.png"
+                val iconFile = File("${buildDir}/res/drawable", "ic_launcher_custom.png")
+                File("${buildDir}/res/drawable").mkdirs()
+
+                URL(iconLink).openStream().use { input ->
+                    Files.newOutputStream(iconFile.toPath()).use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                android.defaultConfig.vectorDrawables.useSupportLibrary = true
+                android.productFlavors.forEach {
+                    it.vectorDrawables.useSupportLibrary = true
+                }
+
+                sourceSets {
+                    getByName("main").res.srcDir(File("${buildDir}/res"))
+                }
+
+            }
+            false
+        }
+    }
 
     buildTypes {
         getByName("release") {
@@ -62,8 +87,6 @@ android {
         }
     }
 
-
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -74,7 +97,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
@@ -84,38 +106,4 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-val downloadIcon by tasks.registering(DownloadIconTask::class) {
-    imageUrl.set(System.getenv("Icon_Uri"))
-    destinationPath.set("${project.projectDir}/src/main/res/mipmap-anydpi-v26/ic_launcher.xml")
-}
-
-tasks.named("preBuild").configure {
-    dependsOn(downloadIcon)
-}
-
-open class DownloadIconTask : DefaultTask() {
-    @Input
-    val imageUrl: Property<String> = project.objects.property(String::class.java)
-
-    @Input
-    val destinationPath: Property<String> = project.objects.property(String::class.java)
-
-    @TaskAction
-    fun downloadIcon() {
-        val connection = URL(imageUrl.get()).openConnection() as HttpURLConnection
-        connection.connect()
-
-        if (connection.responseCode == HttpURLConnection.HTTP_OK) {
-            connection.inputStream.use { input ->
-                File(destinationPath.get()).outputStream().use { output ->
-                    input.copyTo(output)
-                }
-            }
-        } else {
-            throw IOException("Failed to download image: HTTP ${connection.responseCode} ${connection.responseMessage}")
-        }
-
-        connection.disconnect()
-    }
-}
 
