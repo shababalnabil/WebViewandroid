@@ -9,7 +9,7 @@ local_file_path="$script_dir/app/src/main/res"
 
 
 # Download the image using curl
-curl -O "$image_url"
+curl -o "$filename" "$image_url"
 
 # Check if the download was successful
 if [ $? -ne 0 ]; then
@@ -18,18 +18,18 @@ if [ $? -ne 0 ]; then
 fi
 
 # Resize and save to mipmap-xxxhdpi
-convert "$filename" -resize 192x192 mipmap-xxxhdpi/"$filename"
+convert "$filename" -resize 192x192 "$local_file_path"/mipmap-xxxhdpi/"$filename"
 
 # Resize and save to mipmap-xxhdpi
-convert "$filename" -resize 144x144 mipmap-xxhdpi/"$filename"
+convert "$filename" -resize 144x144 "$local_file_path"/mipmap-xxhdpi/"$filename"
 
 # Resize and save to mipmap-xhdpi
-convert "$filename" -resize 96x96 mipmap-xhdpi/"$filename"
+convert "$filename" -resize 96x96 "$local_file_path"/mipmap-xhdpi/"$filename"
 
 # Resize and save to mipmap-mdpi
-convert "$filename" -resize 48x48 mipmap-mdpi/"$filename"
+convert "$filename" -resize 48x48 "$local_file_path"/mipmap-mdpi/"$filename"
 
 # Resize and save to mipmap-hdpi
-convert "$filename" -resize 72x72 mipmap-hdpi/"$filename"
+convert "$filename" -resize 72x72 "$local_file_path"/mipmap-hdpi/"$filename"
 
 echo "Image resized and saved to mipmap directories."
