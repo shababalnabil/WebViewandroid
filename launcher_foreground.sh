@@ -8,6 +8,12 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 local_file_path="$script_dir/app/src/main/res"
 
 
+mkdir -p "$local_file_path/mipmap-xxxhdpi"
+mkdir -p "$local_file_path/mipmap-xxhdpi"
+mkdir -p "$local_file_path/mipmap-xhdpi"
+mkdir -p "$local_file_path/mipmap-mdpi"
+mkdir -p "$local_file_path/mipmap-hdpi"
+
 # Download the image using curl
 curl -o "$filename" "$image_url"
 
