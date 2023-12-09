@@ -9,8 +9,14 @@ workflows:
             gradle: 8.0
             JAVA_HOME: "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
         scripts:
-            - chmod +x $FCI_BUILD_DIR/icon_script.sh
-            - $FCI_BUILD_DIR/icon_script.sh $icon_url
+            - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            - brew install imagemagick
+            - chmod +x $FCI_BUILD_DIR/launcher_icon.sh
+            - $FCI_BUILD_DIR/launcher_icon.sh $icon_url
+            - chmod +x $FCI_BUILD_DIR/launcher_round.sh
+            - $FCI_BUILD_DIR/launcher_round.sh $icon_url
+            - chmod +x $FCI_BUILD_DIR/launcher_foreground.sh
+            - $FCI_BUILD_DIR/launcher_foreground.sh $icon_url
             - ls -l "$FCI_BUILD_DIR" # List contents of the build directory
             - chmod +x "$FCI_BUILD_DIR/gradlew" # Set execute permissions for gradlew
             - "$FCI_BUILD_DIR/gradlew assembleRelease" # Build the release APK
