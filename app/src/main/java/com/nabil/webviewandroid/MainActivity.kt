@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
             webChromeClient = WebChromeClient()
             webViewClient = WebViewClient()
         }
-        //webview.loadUrl(BuildConfig.WEB_URL)
+        webview.loadUrl(BuildConfig.WEB_URL)
     }
 
 }
